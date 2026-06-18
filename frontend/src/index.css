@@ -1,0 +1,30 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #fafafa;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+}
+body {
+  margin: 0;
+  background: #F7F3EB;
+  color: #4A4035;
+  font-family: 'Outfit', sans-serif;
+}
+
+.logo {
+  font-family: 'DM Serif Display', serif;
+}

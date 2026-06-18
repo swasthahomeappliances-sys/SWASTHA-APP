@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<body>
+<button onclick="register()">Register</button>
+
+<script>
+async function register() {
+    const response = await fetch(
+        "http://localhost:5000/api/auth/register",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name: "Sam",
+                email: "sam123@test.com",
+                phone: "9876543210",
+                password: "password123"
+            })
+        }
+    );
+
+    const data = await response.json();
+
+    console.log(data);
+    alert(JSON.stringify(data));
+}
+</script>
+</body>
+</html>
