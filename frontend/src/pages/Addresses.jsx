@@ -25,7 +25,7 @@ function Addresses() {
       localStorage.getItem("token");
 
     const response = await axios.get(
-      "http://localhost:5000/api/addresses",
+      "`${import.meta.env.VITE_API_URL}`/api/addresses",
       {
         headers: {
           Authorization:
@@ -52,7 +52,7 @@ function Addresses() {
       localStorage.getItem("token");
 
     await axios.post(
-      "http://localhost:5000/api/addresses",
+      "`${import.meta.env.VITE_API_URL}`/api/addresses",
       formData,
       {
         headers: {

@@ -78,7 +78,7 @@ const handleGoogleLogin =
 
       const response =
         await axios.post(
-          "http://localhost:5000/api/auth/google",
+          "`${import.meta.env.VITE_API_URL}`/api/auth/google",
           {
             email:
               user.email,
@@ -129,7 +129,7 @@ const handleGoogleLogin =
 
       try {
         await axios.post(
-          "http://localhost:5000/api/auth/register",
+          "`${import.meta.env.VITE_API_URL}`/api/auth/register",
           {
             name:
               formData.name,

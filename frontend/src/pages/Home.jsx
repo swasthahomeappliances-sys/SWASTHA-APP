@@ -39,7 +39,7 @@ const fetchProducts =
     try {
       const response =
         await axios.get(
-          "http://localhost:5000/api/products"
+          "`${import.meta.env.VITE_API_URL}`/api/products"
         );
 
       setProducts(
@@ -58,7 +58,7 @@ const fetchAds =
   async () => {
     const response =
       await axios.get(
-        "http://localhost:5000/api/advertisements"
+        "`${import.meta.env.VITE_API_URL}`/api/advertisements"
       );
 
     setAds(
