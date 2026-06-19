@@ -98,7 +98,7 @@ function AdminProducts() {
           new FormData();
 
         uploadData.append(
-          "image",
+          "file",
           imageFile
         );
 
