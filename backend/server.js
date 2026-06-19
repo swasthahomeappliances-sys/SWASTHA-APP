@@ -7,7 +7,7 @@ const uploadRoutes =
     "./routes/uploadRoutes"
   );
 const cartRoutes = require("./routes/cartRoutes");
-const authRoutes = require("./routes/authRoutes");
+const authRoutes = require("./routes/authroutes");
 const pool = require("./db/db");
 const addressRoutes =
   require("./routes/addressRoutes");
