@@ -45,7 +45,7 @@ function AdminProducts() {
 
       const response =
         await axios.get(
-          "`${import.meta.env.VITE_API_URL}`/api/products/admin/all",
+          `${import.meta.env.VITE_API_URL}/api/products/admin/all`,
           {
             headers: {
               Authorization:
@@ -104,7 +104,7 @@ function AdminProducts() {
 
         const uploadResponse =
           await axios.post(
-            "`${import.meta.env.VITE_API_URL}`/api/upload",
+            `${import.meta.env.VITE_API_URL}/api/upload`,
             uploadData,
             config
           );
@@ -120,7 +120,7 @@ function AdminProducts() {
 
       if (editingId) {
         await axios.put(
-          ``${import.meta.env.VITE_API_URL}`/api/products/${editingId}`,
+          `${import.meta.env.VITE_API_URL}/api/products/${editingId}`,
           productData,
           config
         );
@@ -130,7 +130,7 @@ function AdminProducts() {
         );
       } else {
         await axios.post(
-          "`${import.meta.env.VITE_API_URL}`/api/products",
+          `${import.meta.env.VITE_API_URL}/api/products`,
           productData,
           config
         );
@@ -193,7 +193,7 @@ function AdminProducts() {
           );
 
         await axios.patch(
-          ``${import.meta.env.VITE_API_URL}`/api/products/${id}/toggle-status`,
+          `${import.meta.env.VITE_API_URL}/api/products/${id}/toggle-status`,
           {},
           {
             headers: {

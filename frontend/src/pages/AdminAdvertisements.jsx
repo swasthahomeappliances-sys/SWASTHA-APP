@@ -46,7 +46,7 @@ function AdminAdvertisements() {
 
       const response =
         await axios.get(
-          "`${import.meta.env.VITE_API_URL}`/api/advertisements/admin/all",
+          `${import.meta.env.VITE_API_URL}/api/advertisements/admin/all`,
           {
             headers: {
               Authorization:
@@ -69,7 +69,7 @@ function AdminAdvertisements() {
 
       const response =
         await axios.get(
-          "`${import.meta.env.VITE_API_URL}`/api/products/admin/all",
+          `${import.meta.env.VITE_API_URL}/api/products/admin/all`,
           {
             headers: {
               Authorization:
@@ -109,7 +109,7 @@ function AdminAdvertisements() {
 
       const response =
         await axios.post(
-          "`${import.meta.env.VITE_API_URL}`/api/upload",
+          `${import.meta.env.VITE_API_URL}/api/upload`,
           data,
           {
             headers: {
@@ -140,7 +140,7 @@ function AdminAdvertisements() {
           );
 
         await axios.post(
-          "`${import.meta.env.VITE_API_URL}`/api/advertisements",
+          `${import.meta.env.VITE_API_URL}/api/advertisements`,
           {
             ...formData,
             image_url:
@@ -185,7 +185,7 @@ function AdminAdvertisements() {
         );
 
       await axios.patch(
-        ``${import.meta.env.VITE_API_URL}`/api/advertisements/${id}/toggle`,
+        `${import.meta.env.VITE_API_URL}/api/advertisements/${id}/toggle`,
         {},
         {
           headers: {
@@ -206,7 +206,7 @@ function AdminAdvertisements() {
         );
 
       await axios.delete(
-        ``${import.meta.env.VITE_API_URL}`/api/advertisements/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/advertisements/${id}`,
         {
           headers: {
             Authorization:

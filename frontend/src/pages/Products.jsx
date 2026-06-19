@@ -48,7 +48,7 @@ function Products() {
       try {
         const response =
           await axios.get(
-            ``${import.meta.env.VITE_API_URL}`/api/products?search=${search}`
+            `${import.meta.env.VITE_API_URL}/api/products?search=${search}`
           );
 
         setProducts(

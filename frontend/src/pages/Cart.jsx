@@ -27,7 +27,7 @@ function Cart() {
 
       const response =
         await axios.get(
-          "`${import.meta.env.VITE_API_URL}`/api/cart",
+          `${import.meta.env.VITE_API_URL}/api/cart`,
           {
             headers: {
               Authorization:
@@ -48,7 +48,7 @@ function Cart() {
         localStorage.getItem("token");
 
       await axios.delete(
-        ``${import.meta.env.VITE_API_URL}`/api/cart/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/cart/${id}`,
         {
           headers: {
             Authorization:
@@ -74,7 +74,7 @@ const updateQuantity =
         );
 
       await axios.patch(
-        ``${import.meta.env.VITE_API_URL}`/api/cart/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/cart/${id}`,
         {
           quantity,
         },

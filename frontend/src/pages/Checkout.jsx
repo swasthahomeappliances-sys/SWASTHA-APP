@@ -52,7 +52,7 @@ useState("RAZORPAY");
 
         const response =
           await axios.get(
-            "`${import.meta.env.VITE_API_URL}`/api/cart",
+            `${import.meta.env.VITE_API_URL}/api/cart`,
             {
               headers: {
                 Authorization:
@@ -100,7 +100,7 @@ useState("RAZORPAY");
 
       const orderResponse =
         await axios.post(
-          "`${import.meta.env.VITE_API_URL}`/api/orders/create",
+          `${import.meta.env.VITE_API_URL}/api/orders/create`,
           formData,
           {
             headers: {
@@ -140,7 +140,7 @@ useState("RAZORPAY");
             response
           ) => {
             await axios.post(
-              "`${import.meta.env.VITE_API_URL}`/api/orders/verify",
+              `${import.meta.env.VITE_API_URL}/api/orders/verify`,
               {
                 razorpay_order_id:
                   response.razorpay_order_id,

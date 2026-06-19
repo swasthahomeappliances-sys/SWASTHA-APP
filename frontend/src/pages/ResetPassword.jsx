@@ -48,7 +48,7 @@ function ResetPassword() {
 
       try {
         await axios.post(
-          "`${import.meta.env.VITE_API_URL}`/api/auth/reset-password",
+          `${import.meta.env.VITE_API_URL}/api/auth/reset-password`,
           {
             token,
             password,

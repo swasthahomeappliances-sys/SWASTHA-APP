@@ -33,7 +33,7 @@ function Account() {
 
         const response =
           await axios.get(
-            "`${import.meta.env.VITE_API_URL}`/api/auth/profile",
+            `${import.meta.env.VITE_API_URL}/api/auth/profile`,
             {
               headers: {
                 Authorization:
@@ -62,7 +62,7 @@ function Account() {
 
         const response =
           await axios.get(
-            "`${import.meta.env.VITE_API_URL}`/api/orders/my-orders",
+            `${import.meta.env.VITE_API_URL}/api/orders/my-orders`,
             {
               headers: {
                 Authorization:

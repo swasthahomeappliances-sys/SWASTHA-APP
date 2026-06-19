@@ -40,7 +40,7 @@ function AdminOrders() {
 
         const response =
           await axios.get(
-            "`${import.meta.env.VITE_API_URL}`/api/orders/admin",
+            `${import.meta.env.VITE_API_URL}/api/orders/admin`,
             {
               headers: {
                 Authorization:
@@ -71,7 +71,7 @@ function AdminOrders() {
           );
 
         await axios.patch(
-          ``${import.meta.env.VITE_API_URL}`/api/orders/admin/${orderId}/status`,
+          `${import.meta.env.VITE_API_URL}/api/orders/admin/${orderId}/status`,
           {
             order_status:
               status,
