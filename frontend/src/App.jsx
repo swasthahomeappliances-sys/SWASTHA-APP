@@ -57,7 +57,10 @@ function App() {
     <ForgotPassword />
   }
 />
-
+<Route
+  path="/order/:id"
+  element={<OrderDetails />}
+/>
 <Route
   path="/reset-password/:token"
   element={

@@ -171,6 +171,7 @@ const createOrder =
         state,
         pincode,
         notes,
+        payment_method,
       } = req.body;
 
       const cartResult =
@@ -222,7 +223,114 @@ const createOrder =
   "KEY:",
   process.env.RAZORPAY_KEY_ID
 );
+if (
+  payment_method ===
+  "COD"
+) {
+  const orderResult =
+    await client.query(
+      `
+      INSERT INTO orders
+      (
+        user_id,
+        total,
+        payment_status,
+        order_status,
+        full_name,
+        phone,
+        email,
+        address_line1,
+        address_line2,
+        city,
+        state,
+        pincode,
+        notes,
+        payment_method
+      )
+      VALUES
+      (
+        $1,$2,$3,$4,
+        $5,$6,$7,$8,
+        $9,$10,$11,$12,
+        $13,$14
+      )
+      RETURNING *
+      `,
+      [
+        userId,
+        total,
+        "PENDING",
+        "PLACED",
+        full_name,
+        phone,
+        email,
+        address_line1,
+        address_line2,
+        city,
+        state,
+        pincode,
+        notes,
+        "COD",
+      ]
+    );
 
+  const order =
+    orderResult.rows[0];
+
+  for (const item of cartItems) {
+    await client.query(
+      `
+      INSERT INTO order_items
+      (
+        order_id,
+        product_id,
+        quantity,
+        price
+      )
+      VALUES
+      ($1,$2,$3,$4)
+      `,
+      [
+        order.id,
+        item.product_id,
+        item.quantity,
+        item.price,
+      ]
+    );
+
+    await client.query(
+      `
+      UPDATE products
+      SET stock =
+        stock - $1
+      WHERE id = $2
+      `,
+      [
+        item.quantity,
+        item.product_id,
+      ]
+    );
+  }
+
+  await client.query(
+    `
+    DELETE FROM cart_items
+    WHERE user_id = $1
+    `,
+    [userId]
+  );
+
+  await client.query(
+    "COMMIT"
+  );
+
+  return res.json({
+    orderId:
+      order.id,
+    paymentMethod:
+      "COD",
+  });
+}
 let razorpayOrder;
 
 try {
