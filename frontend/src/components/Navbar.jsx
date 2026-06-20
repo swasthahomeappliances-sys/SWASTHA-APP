@@ -1,40 +1,58 @@
-
 import {
   AppBar,
   Toolbar,
-  Typography,
   Button,
   Box,
   TextField,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  useMediaQuery,
 } from "@mui/material";
-import {
-  useState,
-} from "react";
+
 import {
   ShoppingCart,
   Person,
 } from "@mui/icons-material";
-import {
-  useNavigate,
-} from "react-router-dom";
+
+import MenuIcon from "@mui/icons-material/Menu";
+
+import { useTheme } from "@mui/material/styles";
+
+import { useState } from "react";
+
 import {
   Link,
+  useNavigate,
 } from "react-router-dom";
 
 function Navbar() {
   const token =
-    !!localStorage.getItem(
-      "token"
-    );
-const [search,
-  setSearch] =
-  useState("");
+    !!localStorage.getItem("token");
+
   const adminToken =
-    !!localStorage.getItem(
-      "adminToken"
+    !!localStorage.getItem("adminToken");
+
+  const [search, setSearch] =
+    useState("");
+
+  const [mobileOpen,
+    setMobileOpen] =
+    useState(false);
+
+  const navigate =
+    useNavigate();
+
+  const theme = useTheme();
+
+  const isMobile =
+    useMediaQuery(
+      theme.breakpoints.down("md")
     );
-const navigate =
-  useNavigate();
+
   const logoutAdmin =
     () => {
       localStorage.removeItem(
@@ -45,247 +63,402 @@ const navigate =
         "/admin/login";
     };
 
+  const menuItems =
+    adminToken
+      ? [
+          {
+            text:
+              "Dashboard",
+            path:
+              "/admin/dashboard",
+          },
+          {
+            text:
+              "Products",
+            path:
+              "/admin/products",
+          },
+          {
+            text:
+              "Advertisements",
+            path:
+              "/admin/advertisements",
+          },
+          {
+            text:
+              "Orders",
+            path:
+              "/admin/orders",
+          },
+        ]
+      : [
+          {
+            text:
+              "Home",
+            path: "/",
+          },
+          {
+            text:
+              "Products",
+            path:
+              "/products",
+          },
+          {
+            text:
+              "Offers",
+            path:
+              "/offers",
+          },
+          {
+            text:
+              "About Us",
+            path:
+              "/about",
+          },
+        ];
+
   return (
-    <AppBar
-      position="static"
-      elevation={0}
-      sx={{
-        background:
-"linear-gradient(135deg,#1E3A8A,#2563EB,#38BDF8)",
-        borderBottom:
-          "1px solid color: #FFFFFF",
-      }}
-    >
-      <Toolbar>
-       <Box
-  component={Link}
-  to="/"
-  sx={{
-    display: "flex",
-    alignItems:
-      "center",
-    textDecoration:
-      "none",
-    mr: 4,
-  }}
->
-  <img
-    src="/logo.jpg"
-    alt="Swastha"
-    style={{
-      height: "50px",
-      width: "auto",
-    }}
-  />
-</Box>
-
-        {!adminToken && (
-          <>
-            <Button
-              component={Link}
-              to="/"
-              sx={{
-                color:
-                  "#FFFFFF",
+    <>
+      <AppBar
+        position="static"
+        elevation={0}
+        sx={{
+          background:
+            "linear-gradient(135deg,#1E3A8A,#2563EB,#38BDF8)",
+        }}
+      >
+        <Toolbar>
+          <Box
+            component={Link}
+            to="/"
+            sx={{
+              display: "flex",
+              alignItems:
+                "center",
+              textDecoration:
+                "none",
+            }}
+          >
+            <img
+              src="/logo.jpg"
+              alt="Swastha"
+              style={{
+                height:
+                  "50px",
               }}
+            />
+          </Box>
+
+          <Box
+            sx={{
+              flexGrow: 1,
+            }}
+          />
+
+          {isMobile ? (
+            <IconButton
+              color="inherit"
+              onClick={() =>
+                setMobileOpen(
+                  true
+                )
+              }
             >
-              Home
-            </Button>
+              <MenuIcon />
+            </IconButton>
+          ) : (
+            <>
+              {menuItems.map(
+                (item) => (
+                  <Button
+                    key={
+                      item.path
+                    }
+                    component={
+                      Link
+                    }
+                    to={
+                      item.path
+                    }
+                    sx={{
+                      color:
+                        "#fff",
+                    }}
+                  >
+                    {
+                      item.text
+                    }
+                  </Button>
+                )
+              )}
 
-            <Button
-              component={Link}
-              to="/products"
-              sx={{
-                color:
-                  "#FFFFFF",
-              }}
-            >
-              Products
-            </Button>
+              {!adminToken && (
+                <>
+                  <TextField
+                    size="small"
+                    placeholder="Search..."
+                    value={
+                      search
+                    }
+                    onChange={(
+                      e
+                    ) =>
+                      setSearch(
+                        e
+                          .target
+                          .value
+                      )
+                    }
+                    onKeyDown={(
+                      e
+                    ) => {
+                      if (
+                        e.key ===
+                        "Enter"
+                      ) {
+                        navigate(
+                          `/products?search=${search}`
+                        );
+                      }
+                    }}
+                    sx={{
+                      width:
+                        220,
+                      mx: 2,
+                      bgcolor:
+                        "#fff",
+                      borderRadius:
+                        1,
+                    }}
+                  />
 
-            <Button
-  component={Link}
-  to="/offers"
-  sx={{
-    color:
-      "#FFFFFF",
-  }}
->
-  Offers
-</Button>
-<Button
-  component={Link}
-  to="/about"
-  sx={{
-    color:
-      "#FFFFFF",
-  }}
->
-  About us
-</Button>
-          </>
-        )}
+                  {token ? (
+                    <>
+                      <IconButton
+                        component={
+                          Link
+                        }
+                        to="/cart"
+                        sx={{
+                          color:
+                            "#fff",
+                        }}
+                      >
+                        <ShoppingCart />
+                      </IconButton>
 
-        {adminToken && (
-          <>
-            <Button
-              component={Link}
-              to="/admin/dashboard"
-               sx={{
-    color:
-      "#FFFFFF",
-  }}
-            >
-              Dashboard
-            </Button>
+                      <IconButton
+                        component={
+                          Link
+                        }
+                        to="/account"
+                        sx={{
+                          color:
+                            "#fff",
+                        }}
+                      >
+                        <Person />
+                      </IconButton>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        component={
+                          Link
+                        }
+                        to="/login"
+                        sx={{
+                          color:
+                            "#fff",
+                        }}
+                      >
+                        Login
+                      </Button>
 
-            <Button
-              component={Link}
-              to="/admin/products"
-               sx={{
-    color:
-      "#FFFFFF",
-  }}
-            >
-              Products
-            </Button>
+                      <Button
+                        component={
+                          Link
+                        }
+                        to="/register"
+                        variant="contained"
+                        sx={{
+                          background:
+                            "#22C55E",
+                        }}
+                      >
+                        Register
+                      </Button>
+                    </>
+                  )}
+                </>
+              )}
 
-            <Button
-              component={Link}
-              to="/admin/advertisements"
-               sx={{
-    color:
-      "#FFFFFF",
-  }}
-            >
-              Advertisements
-            </Button>
+              {adminToken && (
+                <Button
+                  color="error"
+                  variant="contained"
+                  onClick={
+                    logoutAdmin
+                  }
+                >
+                  Logout
+                </Button>
+              )}
+            </>
+          )}
+        </Toolbar>
+      </AppBar>
 
-            <Button
-  component={Link}
-  to="/admin/orders"
-   sx={{
-    color:
-      "#FFFFFF",
-  }}
->
-  Orders
-</Button>
-          </>
-        )}
-
+      <Drawer
+        anchor="right"
+        open={
+          mobileOpen
+        }
+        onClose={() =>
+          setMobileOpen(
+            false
+          )
+        }
+      >
         <Box
           sx={{
-            flexGrow: 1,
+            width: 250,
           }}
-        />
-
-        {!adminToken && (
-          <>
-            <TextField
-  size="small"
-  placeholder="Search products..."
-  value={search}
-  onChange={(e) =>
-    setSearch(
-      e.target.value
+        >
+          <List>
+  {menuItems.map(
+    (item) => (
+      <ListItem
+        key={item.path}
+        disablePadding
+      >
+        <ListItemButton
+          component={Link}
+          to={item.path}
+          onClick={() =>
+            setMobileOpen(false)
+          }
+        >
+          <ListItemText
+            primary={item.text}
+          />
+        </ListItemButton>
+      </ListItem>
     )
-  }
-  onKeyDown={(e) => {
-    if (
-      e.key ===
-      "Enter"
-    ) {
-      navigate(
-        `/products?search=${search}`
-      );
-    }
-  }}
-  sx={{
-    width: 250,
-    mr: 2,
-  }}
-/>
+  )}
 
-            {token && (
-              <>
-                <Button
-                  component={Link}
-                  to="/cart"
-                  startIcon={
-                    <ShoppingCart />
-                  }
-                  sx={{
-                    color:
-                      "#100802",
-                  }}
-                >
-                </Button>
-
-                <Button
-                  component={Link}
-                  to="/account"
-                  startIcon={
-                    <Person />
-                  }
-                  sx={{
-                    color:
-                      "#08041e",
-                  }}
-                >
-              
-                </Button>
-              </>
-            )}
-
-            {!token && (
-              <>
-                <Button
-                  component={Link}
-                  to="/login"
-                  sx={{
-                    color:
-                      "#0a0501",
-                  }}
-                >
-                  Login
-                </Button>
-
-                <Button
-                  component={Link}
-                  to="/register"
-                  variant="contained"
-                  sx={{
-                    background:
-                      "#13ba16",
-                      color: "#120202"
-                  }}
-                >
-                  Register
-                </Button>
-              </>
-            )}
-          </>
-        )}
-
-        {adminToken && (
-          <Button
-            color="error"
-            variant="contained"
-            onClick={
-              logoutAdmin
+  {!adminToken &&
+    token && (
+      <>
+        <ListItem
+          disablePadding
+        >
+          <ListItemButton
+            component={Link}
+            to="/cart"
+            onClick={() =>
+              setMobileOpen(false)
             }
-            sx={{
-                    background:
-                      "#eab5a6",
-                      color: "#740707"
-                  }}
           >
-            Logout
-          </Button>
-        )}
-      </Toolbar>
-    </AppBar>
+            <ListItemText
+              primary="Cart"
+            />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem
+          disablePadding
+        >
+          <ListItemButton
+            component={Link}
+            to="/account"
+            onClick={() =>
+              setMobileOpen(false)
+            }
+          >
+            <ListItemText
+              primary="My Account"
+            />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem
+          disablePadding
+        >
+          <ListItemButton
+            onClick={() => {
+              localStorage.removeItem(
+                "token"
+              );
+
+              window.location.href =
+                "/login";
+            }}
+          >
+            <ListItemText
+              primary="Logout"
+            />
+          </ListItemButton>
+        </ListItem>
+      </>
+    )}
+
+  {!adminToken &&
+    !token && (
+      <>
+        <ListItem
+          disablePadding
+        >
+          <ListItemButton
+            component={Link}
+            to="/login"
+            onClick={() =>
+              setMobileOpen(false)
+            }
+          >
+            <ListItemText
+              primary="Login"
+            />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem
+          disablePadding
+        >
+          <ListItemButton
+            component={Link}
+            to="/register"
+            onClick={() =>
+              setMobileOpen(false)
+            }
+          >
+            <ListItemText
+              primary="Register"
+            />
+          </ListItemButton>
+        </ListItem>
+      </>
+    )}
+
+  {adminToken && (
+    <ListItem
+      disablePadding
+    >
+      <ListItemButton
+        onClick={
+          logoutAdmin
+        }
+      >
+        <ListItemText
+          primary="Logout"
+        />
+      </ListItemButton>
+    </ListItem>
+  )}
+</List>
+        </Box>
+      </Drawer>
+    </>
   );
 }
 

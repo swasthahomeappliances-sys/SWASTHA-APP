@@ -126,7 +126,7 @@ const fetchAds =
               variant="h5"
               gutterBottom
             >
-              𝒷𝑒𝒸𝒶𝓊𝓈𝑒 𝓎𝑜𝓊 𝒹𝑒𝓈𝑒𝓇𝓋𝑒 𝓉𝒽𝑒 𝓁𝒾𝒻𝑒 𝓎𝑜𝓊 𝒹𝑒𝓈𝒾𝓇𝑒...
+              because you deserve the life you desire...
             </Typography>
 
             <Button

@@ -22,6 +22,7 @@ const {
    getAdminOrders,
   updateOrderStatus,
     getAdminOrderById,
+    getOrderById
 } = require(
   "../controllers/orderController"
 );
@@ -56,6 +57,10 @@ router.patch(
   adminMiddleware,
   updateOrderStatus
 );
-
+router.get(
+  "/:id",
+  authMiddleware,
+  getOrderById
+);
 module.exports =
   router;
