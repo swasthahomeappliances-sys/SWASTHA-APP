@@ -8,6 +8,7 @@ const resend = new Resend(
   process.env.RESEND_API_KEY
 );
 const register = async (req, res) => {
+  
   try {
     const { name, email, phone, password } = req.body;
 
@@ -37,7 +38,21 @@ const register = async (req, res) => {
       RETURNING id, name, email, phone`,
       [name, email, phone, hashedPassword]
     );
+const passwordRegex =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
+if (
+  !passwordRegex.test(
+    password
+  )
+) {
+  return res
+    .status(400)
+    .json({
+      message:
+        "Password must contain at least 8 characters, one uppercase letter, one lowercase letter and one number",
+    });
+}
     res.status(201).json({
       message: "User created successfully",
       user: result.rows[0],

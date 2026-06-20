@@ -177,174 +177,183 @@ const fetchCartCount =
         }}
       >
         <Toolbar>
-          <Box
-            component={Link}
-            to="/"
-            sx={{
-              display: "flex",
-              alignItems:
-                "center",
-              textDecoration:
-                "none",
-            }}
-          >
-            <img
-              src="/logo.jpg"
-              alt="Swastha"
-              style={{
-                height:
-                  "50px",
-              }}
-            />
-          </Box>
+         {isMobile ? (
+  <>
+    <Box
+      sx={{
+        width: "100%",
+        display: "flex",
+        justifyContent:
+          "space-between",
+        alignItems:
+          "center",
+      }}
+    >
+      <IconButton
+        color="inherit"
+        onClick={() =>
+          setMobileOpen(
+            true
+          )
+        }
+      >
+        <MenuIcon />
+      </IconButton>
 
-          <Box
-            sx={{
-              flexGrow: 1,
-            }}
-          />
+      <Box
+        component={Link}
+        to="/"
+        sx={{
+          display: "flex",
+          alignItems:
+            "center",
+          textDecoration:
+            "none",
+        }}
+      >
+        <img
+          src="/logo.jpg"
+          alt="Swastha"
+          style={{
+            height: "45px",
+          }}
+        />
+      </Box>
+    </Box>
+  </>
+) : (
+  <>
+    <Box
+      component={Link}
+      to="/"
+      sx={{
+        display: "flex",
+        alignItems:
+          "center",
+        textDecoration:
+          "none",
+      }}
+    >
+      <img
+        src="/logo.jpg"
+        alt="Swastha"
+        style={{
+          height: "50px",
+        }}
+      />
+    </Box>
 
-          {isMobile ? (
+    <Box
+      sx={{
+        flexGrow: 1,
+      }}
+    />
+
+    {menuItems.map(
+      (item) => (
+        <Button
+          key={item.path}
+          component={Link}
+          to={item.path}
+          sx={{
+            color: "#fff",
+          }}
+        >
+          {item.text}
+        </Button>
+      )
+    )}
+
+    {!adminToken && (
+      <>
+        <TextField
+          size="small"
+          placeholder="Search..."
+          value={search}
+          onChange={(e) =>
+            setSearch(
+              e.target.value
+            )
+          }
+          onKeyDown={(e) => {
+            if (
+              e.key ===
+              "Enter"
+            ) {
+              navigate(
+                `/products?search=${search}`
+              );
+            }
+          }}
+          sx={{
+            width: 220,
+            mx: 2,
+            bgcolor:
+              "#fff",
+            borderRadius:
+              1,
+          }}
+        />
+
+        {token ? (
+          <>
             <IconButton
-              color="inherit"
-              onClick={() =>
-                setMobileOpen(
-                  true
-                )
-              }
+              component={Link}
+              to="/cart"
+              sx={{
+                color:
+                  "#fff",
+              }}
             >
-              <MenuIcon />
+              <Badge
+                badgeContent={
+                  cartCount
+                }
+                color="error"
+              >
+                <ShoppingCart />
+              </Badge>
             </IconButton>
-          ) : (
-            <>
-              {menuItems.map(
-                (item) => (
-                  <Button
-                    key={
-                      item.path
-                    }
-                    component={
-                      Link
-                    }
-                    to={
-                      item.path
-                    }
-                    sx={{
-                      color:
-                        "#fff",
-                    }}
-                  >
-                    {
-                      item.text
-                    }
-                  </Button>
-                )
-              )}
 
-              {!adminToken && (
-                <>
-                  <TextField
-                    size="small"
-                    placeholder="Search..."
-                    value={
-                      search
-                    }
-                    onChange={(
-                      e
-                    ) =>
-                      setSearch(
-                        e
-                          .target
-                          .value
-                      )
-                    }
-                    onKeyDown={(
-                      e
-                    ) => {
-                      if (
-                        e.key ===
-                        "Enter"
-                      ) {
-                        navigate(
-                          `/products?search=${search}`
-                        );
-                      }
-                    }}
-                    sx={{
-                      width:
-                        220,
-                      mx: 2,
-                      bgcolor:
-                        "#fff",
-                      borderRadius:
-                        1,
-                    }}
-                  />
+            <IconButton
+              component={Link}
+              to="/account"
+              sx={{
+                color:
+                  "#fff",
+              }}
+            >
+              <Person />
+            </IconButton>
+          </>
+        ) : (
+          <>
+            <Button
+              component={Link}
+              to="/login"
+              sx={{
+                color:
+                  "#fff",
+              }}
+            >
+              Login
+            </Button>
 
-                  {token ? (
-                    <>
-                      <IconButton
-  component={Link}
-  to="/cart"
-  sx={{
-    color:"#fff",
-  }}
->
-  <Badge
-    badgeContent={
-      cartCount
-    }
-    color="error"
-  >
-    <ShoppingCart />
-  </Badge>
-</IconButton>
-
-                      <IconButton
-                        component={
-                          Link
-                        }
-                        to="/account"
-                        sx={{
-                          color:
-                            "#fff",
-                        }}
-                      >
-                        <Person />
-                      </IconButton>
-                    </>
-                  ) : (
-                    <>
-                      <Button
-                        component={
-                          Link
-                        }
-                        to="/login"
-                        sx={{
-                          color:
-                            "#fff",
-                        }}
-                      >
-                        Login
-                      </Button>
-
-                      <Button
-                        component={
-                          Link
-                        }
-                        to="/register"
-                        variant="contained"
-                        sx={{
-                          background:
-                            "#22C55E",
-                        }}
-                      >
-                        Register
-                      </Button>
-                    </>
-                  )}
-                </>
-              )}
+            <Button
+              component={Link}
+              to="/register"
+              variant="contained"
+              sx={{
+                background:
+                  "#22C55E",
+              }}
+            >
+              Register
+            </Button>
+          </>
+        )}
+      </>
+    )}
 
               {adminToken && (
                 <Button

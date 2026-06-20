@@ -102,6 +102,7 @@ const handleGoogleLogin =
       );
     }
   };
+  
   const handleSubmit =
     async (e) => {
       e.preventDefault();
@@ -116,7 +117,43 @@ const handleGoogleLogin =
 
         return;
       }
+const passwordRegex =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
+if (
+  !passwordRegex.test(
+    formData.password
+  )
+) {
+  alert(
+    "Password must contain at least 8 characters, one uppercase letter, one lowercase letter and one number"
+  );
+
+  return;
+}
+if (
+  phone &&
+  !/^[6-9]\d{9}$/.test(phone)
+) {
+  return res
+    .status(400)
+    .json({
+      message:
+        "Enter a valid phone number",
+    });
+}
+if (
+  !/^\d{6}$/.test(
+    pincode
+  )
+) {
+  return res
+    .status(400)
+    .json({
+      message:
+        "Invalid pincode",
+    });
+}
       if (
         !formData.acceptedTerms
       ) {
@@ -244,6 +281,7 @@ const handleGoogleLogin =
               type="password"
               name="password"
               margin="normal"
+                helperText="Minimum 8 characters, 1 uppercase, 1 lowercase and 1 number"
               onChange={
                 handleChange
               }
