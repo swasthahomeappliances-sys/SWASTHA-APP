@@ -90,22 +90,6 @@ function LoadingScreen() {
 
         <Typography
           sx={{
-            mt: 3,
-            color: "#fff",
-            fontWeight: 800,
-            fontSize: {
-              xs: "2rem",
-              md: "2.8rem",
-            },
-
-            letterSpacing: "3px",
-          }}
-        >
-          SWASTHA
-        </Typography>
-
-        <Typography
-          sx={{
             color:
               "rgba(255,255,255,0.85)",
 
@@ -120,19 +104,10 @@ function LoadingScreen() {
               "fadeText 2s infinite",
           }}
         >
-          Home Appliances
+     Loading your store...
         </Typography>
 
-        <Typography
-          sx={{
-            mt: 4,
-            color: "#fff",
-            fontSize: "1rem",
-            fontWeight: 500,
-          }}
-        >
-          Loading your store...
-        </Typography>
+       
       </Box>
     </>
   );
