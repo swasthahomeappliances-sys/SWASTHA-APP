@@ -496,7 +496,7 @@ useState("RAZORPAY");
   color="text.secondary"
   sx={{ mt: 1 }}
 >
-  *Cash On Delivery available for eligible locations.
+  *For COD/UPI payments, we will reach out to you shortly via WhatsApp or Email
 </Typography>
   </CardContent>
 </Card>
