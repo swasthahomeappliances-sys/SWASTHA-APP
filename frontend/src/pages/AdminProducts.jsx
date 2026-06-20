@@ -110,7 +110,7 @@ function AdminProducts() {
           );
 
         imageUrl =
-          uploadResponse.data.imageUrl;
+          uploadResponse.data.url;
       }
 
       const productData = {
