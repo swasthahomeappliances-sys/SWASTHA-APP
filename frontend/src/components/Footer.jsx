@@ -24,6 +24,7 @@ function Footer() {
         Email: 
         <Button
               color="#fdfdfd"
+              component="a"
               href="mailto:swasthahomeappliances@gmail.com"
             >
               swasthahomeappliances@gmail.com
