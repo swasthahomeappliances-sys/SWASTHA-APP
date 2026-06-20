@@ -365,6 +365,73 @@ try {
       client.release();
     }
   };
+  const getOrderById =
+  async (req, res) => {
+    try {
+      const { id } =
+        req.params;
+
+      const order =
+        await pool.query(
+          `
+          SELECT *
+          FROM orders
+          WHERE id = $1
+          AND user_id = $2
+          `,
+          [id,
+          req.user.userId
+          ]
+        );
+
+      if (
+        order.rows.length ===
+        0
+      ) {
+        return res
+          .status(404)
+          .json({
+            message:
+              "Order not found",
+          });
+      }
+
+      const items =
+        await pool.query(
+          `
+          SELECT
+  oi.*,
+  p.name,
+  p.brand,
+  p.model_number,
+  p.image_url
+FROM order_items oi
+JOIN products p
+ON oi.product_id = p.id
+WHERE oi.order_id = $1
+          `,
+          [id]
+        );
+
+      res.json({
+        order:
+          order.rows[0],
+        items:
+          items.rows,
+      });
+    } catch (
+      error
+    ) {
+      console.error(
+        error
+      );
+
+      res.status(500).json({
+        message:
+          "Server Error",
+      });
+    }
+  };
 const getMyOrders =
   async (req, res) => {
     try {
@@ -374,6 +441,7 @@ const getMyOrders =
           SELECT *
           FROM orders
           WHERE user_id = $1
+          
           ORDER BY created_at DESC
           `,
           [req.user.userId]
@@ -486,5 +554,6 @@ await pool.query(
   getAdminOrders,
   updateOrderStatus,
     getAdminOrderById,
+    getOrderById,
 };
 

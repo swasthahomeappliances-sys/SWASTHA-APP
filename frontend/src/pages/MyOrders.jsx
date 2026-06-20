@@ -2,7 +2,7 @@ import {
   useEffect,
   useState,
 } from "react";
-
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import {
@@ -90,13 +90,21 @@ function MyOrders() {
 
             return (
               <Card
-                key={
-                  order.id
-                }
-                sx={{
-                  mb: 3,
-                }}
-              >
+  key={order.id}
+  component={Link}
+  to={`/order/${order.id}`}
+  sx={{
+    textDecoration: "none",
+    cursor: "pointer",
+    color: "inherit",
+    transition: "0.2s",
+
+    "&:hover": {
+      transform: "translateY(-3px)",
+      boxShadow: 4,
+    },
+  }}
+>
                 <CardContent>
                   <Typography
                     variant="h6"

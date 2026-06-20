@@ -24,6 +24,7 @@ import AdminProducts from "./pages/AdminProducts";
 import Navbar from "./components/Navbar";
 import AdminLogin from "./pages/AdminLogin";
 import Home from "./pages/Home";
+import OrderDetails from "./pages/OrderDetails";
 import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
 import Register from "./pages/Register";
