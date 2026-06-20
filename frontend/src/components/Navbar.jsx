@@ -14,6 +14,9 @@ import {
 } from "@mui/material";
 
 import {
+  Badge,
+} from "@mui/material";
+import {
   ShoppingCart,
   Person,
 } from "@mui/icons-material";
@@ -22,7 +25,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 import { useTheme } from "@mui/material/styles";
 
-import { useState } from "react";
+import { useState, useEffect} from "react";
 
 import {
   Link,
@@ -35,10 +38,14 @@ function Navbar() {
 
   const adminToken =
     !!localStorage.getItem("adminToken");
-
+useEffect(() => {
+  fetchCartCount();
+}, []);
   const [search, setSearch] =
     useState("");
-
+const [cartCount,
+  setCartCount] =
+  useState(0);
   const [mobileOpen,
     setMobileOpen] =
     useState(false);
@@ -116,7 +123,49 @@ function Navbar() {
               "/about",
           },
         ];
+const fetchCartCount =
+  async () => {
+    try {
+      const token =
+        localStorage.getItem(
+          "token"
+        );
 
+      if (!token)
+        return;
+
+      const response =
+        await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/cart`,
+          {
+            headers: {
+              Authorization:
+                `Bearer ${token}`,
+            },
+          }
+        );
+
+      const total =
+        response.data.reduce(
+          (sum, item) =>
+            sum +
+            Number(
+              item.quantity
+            ),
+          0
+        );
+
+      setCartCount(
+        total
+      );
+    } catch (
+      error
+    ) {
+      console.error(
+        error
+      );
+    }
+  };
   return (
     <>
       <AppBar
@@ -235,17 +284,21 @@ function Navbar() {
                   {token ? (
                     <>
                       <IconButton
-                        component={
-                          Link
-                        }
-                        to="/cart"
-                        sx={{
-                          color:
-                            "#fff",
-                        }}
-                      >
-                        <ShoppingCart />
-                      </IconButton>
+  component={Link}
+  to="/cart"
+  sx={{
+    color:"#fff",
+  }}
+>
+  <Badge
+    badgeContent={
+      cartCount
+    }
+    color="error"
+  >
+    <ShoppingCart />
+  </Badge>
+</IconButton>
 
                       <IconButton
                         component={
@@ -306,6 +359,7 @@ function Navbar() {
               )}
             </>
           )}
+          
         </Toolbar>
       </AppBar>
 
@@ -344,6 +398,7 @@ function Navbar() {
           />
         </ListItemButton>
       </ListItem>
+      
     )
   )}
 
@@ -381,7 +436,23 @@ function Navbar() {
             />
           </ListItemButton>
         </ListItem>
-
+<ListItem
+  disablePadding
+>
+  <ListItemButton
+    component={Link}
+    to="/cart"
+    onClick={() =>
+      setMobileOpen(
+        false
+      )
+    }
+  >
+    <ListItemText
+      primary={`Cart (${cartCount})`}
+    />
+  </ListItemButton>
+</ListItem>
         <ListItem
           disablePadding
         >
