@@ -6,7 +6,12 @@ import {
 import About from "./pages/About";
 import ForgotPassword
 from "./pages/ForgotPassword";
+import {
+  useEffect,
+  useState,
+} from "react";
 
+import LoadingScreen from "./components/LoadingScreen";
 import ResetPassword
 from "./pages/ResetPassword";
 import AdminOrderDetails
@@ -37,7 +42,26 @@ import OrderSuccess from "./pages/OrderSuccess";
 import Offers
 from "./pages/Offers";
 function App() {
+  const [loading,
+    setLoading] =
+    useState(true);
+
+  useEffect(() => {
+    const timer =
+      setTimeout(() => {
+        setLoading(false);
+      }, 1800);
+
+    return () =>
+      clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
   return (
+    
     <BrowserRouter>
 
       <Navbar />
@@ -50,6 +74,10 @@ function App() {
       <AdminDashboard/>
     </AdminRoute>
   }
+/>
+<Route
+  path="/my-orders"
+  element={<MyOrders />}
 />
 <Route
   path="/forgot-password"
