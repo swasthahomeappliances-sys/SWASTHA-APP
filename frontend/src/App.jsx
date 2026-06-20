@@ -33,7 +33,7 @@ import Account from "./pages/Account";
 import Cart from "./pages/Cart";
 import Addresses from "./pages/Addresses";
 import Checkout from "./pages/Checkout";
-
+import OrderSuccess from "./pages/OrderSuccess";
 import Offers
 from "./pages/Offers";
 function App() {
@@ -66,6 +66,10 @@ function App() {
   element={
     <ResetPassword />
   }
+/>
+<Route
+  path="/order-success/:id"
+  element={<OrderSuccess />}
 />
 <Route
   path="/about"

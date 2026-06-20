@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import { Link } from "react-router-dom";
 import {
   Container,
   Card,
@@ -156,12 +156,24 @@ function Account() {
         </CardContent>
       </Card>
 
-      <Typography
-        variant="h5"
-        gutterBottom
-      >
-        My Orders
-      </Typography>
+      <Button
+  component={Link}
+  to="/my-orders"
+  variant="contained"
+  fullWidth
+  sx={{
+    mt: 2,
+    background:
+      "linear-gradient(135deg,#1E3A8A,#2563EB,#38BDF8)",
+
+    "&:hover": {
+      background:
+        "linear-gradient(135deg,#172554,#1D4ED8,#0EA5E9)",
+    },
+  }}
+>
+  My Orders
+</Button>
 
       {orders.length ===
       0 ? (
@@ -175,15 +187,19 @@ function Account() {
       ) : (
         orders.map(
           (order) => (
-            <Card
-              key={
-                order.id
-              }
-              sx={{
-                mb: 2,
-                borderRadius: 3,
-              }}
-            >
+           <Card
+  component={Link}
+  to={`/order/${order.id}`}
+  sx={{
+    textDecoration: "none",
+    color: "inherit",
+    cursor: "pointer",
+
+    "&:hover": {
+      boxShadow: 4,
+    },
+  }}
+>
               <CardContent>
                 <Typography
                   variant="h6"
