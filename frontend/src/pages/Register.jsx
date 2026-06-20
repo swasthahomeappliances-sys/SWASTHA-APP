@@ -194,6 +194,8 @@ if (
         );
 
         alert(
+            error.response?.data
+      ?.message ||
           "Registration Failed"
         );
       }
