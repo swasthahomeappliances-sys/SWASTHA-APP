@@ -67,12 +67,18 @@ function Products() {
 
   return (
     <Container
-      maxWidth={false}
-      sx={{
-        px: 4,
-        py: 4,
-      }}
-    >
+  maxWidth={false}
+  sx={{
+    px: {
+      xs: 1.5,
+      md: 4,
+    },
+    py: {
+      xs: 2,
+      md: 4,
+    },
+  }}
+>
       <Typography
         variant="h2"
         gutterBottom
@@ -84,116 +90,112 @@ function Products() {
       </Typography>
 
       <TextField
-        fullWidth
-        label="Search Products"
-        variant="outlined"
-        value={search}
-        onChange={(e) =>
-          setSearch(
-            e.target.value
-          )
-        }
-        sx={{
-          mb: 5,
-        }}
-      />
-
+  fullWidth
+  label="Search Products"
+  variant="outlined"
+  value={search}
+  onChange={(e) =>
+    setSearch(e.target.value)
+  }
+  sx={{
+    mb: 3,
+    "& .MuiOutlinedInput-root": {
+      borderRadius: 4,
+      backgroundColor: "#fff",
+    },
+  }}
+/>
       {products.length === 0 && (
         <Typography>
           No Products Found
         </Typography>
       )}
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns:
-            "repeat(auto-fill, minmax(320px, 1fr))",
-          gap: "24px",
-        }}
-      >
+     <div
+  style={{
+    display: "grid",
+    gridTemplateColumns:
+      "repeat(auto-fill, minmax(180px, 1fr))",
+    gap: "12px",
+  }}
+>
         {filteredProducts.map(
           (product) => (
             <Card
-              component={Link}
-              to={`/product/${product.id}`}
-              key={product.id}
-              sx={{
-                height: "100%",
-                borderRadius: 4,
-                overflow: "hidden",
-                textDecoration:
-                  "none",
-                color:
-                  "inherit",
-                cursor:
-                  "pointer",
-                transition:
-                  "all 0.25s ease",
+  component={Link}
+  to={`/product/${product.id}`}
+  key={product.id}
+  sx={{
+    borderRadius: 3,
+    overflow: "hidden",
+    textDecoration: "none",
+    color: "inherit",
+    cursor: "pointer",
+    height: "100%",
+    transition: "0.2s",
 
-                "&:hover": {
-                  transform:
-                    "translateY(-8px)",
-                  boxShadow: 8,
-                },
-
-                "&:hover img": {
-                  transform:
-                    "scale(1.05)",
-                },
-              }}
-            >
+    "&:hover": {
+      transform: "translateY(-4px)",
+      boxShadow: 4,
+    },
+  }}
+>
               {product.image_url && (
                 <CardMedia
-                  component="img"
-                  height="250"
-                  image={
-                    product.image_url
-                  }
-                  alt={
-                    product.name
-                  }
-                  sx={{
-                    transition:
-                      "0.3s ease",
-                  }}
-                />
+  component="img"
+  height="150"
+  image={product.image_url}
+  alt={product.name}
+  sx={{
+    objectFit: "cover",
+  }}
+/>
               )}
 
-              <CardContent>
+              <CardContent
+  sx={{
+    p: 1.5,
+  }}
+>
                 <Typography
-                  variant="h5"
-                  gutterBottom
-                >
-                  {
-                    product.name
-                  }
-                </Typography>
+  sx={{
+    fontWeight: 600,
+    fontSize: {
+      xs: "0.95rem",
+      md: "1.2rem",
+    },
+    mb: 1,
+  }}
+>
+  {product.name}
+</Typography>
 
                 <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{
-                    mb: 2,
-                  }}
-                >
-                  {
-                    product.description
-                  }
-                </Typography>
+  color="text.secondary"
+  sx={{
+    fontSize: "0.75rem",
+    mb: 1,
+    display: "-webkit-box",
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: "vertical",
+    overflow: "hidden",
+  }}
+>
+  {product.description}
+</Typography>
 
                 <Typography
-                  variant="h5"
-                  sx={{
-                    mb: 2,
-                    fontWeight: 600,
-                  }}
-                >
-                  ₹
-                  {
-                    product.price
-                  }
-                </Typography>
+  sx={{
+    fontWeight: 700,
+    fontSize: {
+      xs: "1rem",
+      md: "1.3rem",
+    },
+    mb: 1,
+  }}
+>
+  ₹{product.price}
+</Typography>
 
                 {product.stock <= 0 ? (
                   <Typography
@@ -220,17 +222,14 @@ function Products() {
                 )}
 
                 <Typography
-                  variant="body2"
-                  sx={{
-                    mt: 2,
-                  }}
-                >
-                  Category:
-                  {" "}
-                  {
-                    product.category
-                  }
-                </Typography>
+  sx={{
+    mt: 1,
+    fontSize: "0.7rem",
+    color: "#666",
+  }}
+>
+  {product.category}
+</Typography>
               </CardContent>
             </Card>
           )
