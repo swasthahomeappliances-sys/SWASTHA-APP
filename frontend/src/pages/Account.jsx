@@ -183,7 +183,7 @@ function Account() {
     },
   }}
 >
-              <CardContent color="#87f1b0">
+              <CardContent sx={{ backgroundColor: "#87f1b0" }}>
                 <Typography
                   variant="h6"
                 >
