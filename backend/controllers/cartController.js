@@ -12,6 +12,7 @@ const getCart = async (req, res) => {
       products.id as product_id,
       products.name,
       products.price,
+      products.stock,
       products.image_url
       FROM cart_items
       JOIN products
@@ -24,6 +25,7 @@ const getCart = async (req, res) => {
     res.json(result.rows);
   } catch (error) {
     console.error(error);
+
     res.status(500).json({
       message: "Server Error",
     });
@@ -33,50 +35,73 @@ const getCart = async (req, res) => {
 const addToCart = async (req, res) => {
   try {
     const userId = req.user.userId;
-    const { productId, quantity } = req.body;
 
-    const existing = await pool.query(
-      `
-      SELECT *
-      FROM cart_items
-      WHERE user_id=$1
-      AND product_id=$2
-      `,
-      [userId, productId]
-    );
+    const {
+      productId,
+      quantity,
+    } = req.body;
 
-    if (existing.rows.length > 0) {
-      const updated = await pool.query(
+    const existing =
+      await pool.query(
         `
-        UPDATE cart_items
-        SET quantity = quantity + $1
-        WHERE user_id=$2
-        AND product_id=$3
-        RETURNING *
+        SELECT *
+        FROM cart_items
+        WHERE user_id=$1
+        AND product_id=$2
         `,
-        [quantity, userId, productId]
+        [userId, productId]
       );
 
-      return res.json(updated.rows[0]);
+    if (
+      existing.rows.length >
+      0
+    ) {
+      const updated =
+        await pool.query(
+          `
+          UPDATE cart_items
+          SET quantity = quantity + $1
+          WHERE user_id=$2
+          AND product_id=$3
+          RETURNING *
+          `,
+          [
+            quantity,
+            userId,
+            productId,
+          ]
+        );
+
+      return res.json(
+        updated.rows[0]
+      );
     }
 
-    const result = await pool.query(
-      `
-      INSERT INTO cart_items
-      (
-        user_id,
-        product_id,
-        quantity
-      )
-      VALUES ($1,$2,$3)
-      RETURNING *
-      `,
-      [userId, productId, quantity]
-    );
+    const result =
+      await pool.query(
+        `
+        INSERT INTO cart_items
+        (
+          user_id,
+          product_id,
+          quantity
+        )
+        VALUES ($1,$2,$3)
+        RETURNING *
+        `,
+        [
+          userId,
+          productId,
+          quantity,
+        ]
+      );
 
-    res.status(201).json(result.rows[0]);
+    res.status(201).json(
+      result.rows[0]
+    );
   } catch (error) {
     console.error(error);
+
     res.status(500).json({
       message: "Server Error",
     });
@@ -133,36 +158,44 @@ const updateCartQuantity =
         error
       );
 
-      res.status(
-        500
-      ).json({
+      res.status(500).json({
         message:
           "Server Error",
       });
     }
   };
-const deleteCartItem = async (req, res) => {
-  try {
-    const { id } = req.params;
 
-    await pool.query(
-      `
-      DELETE FROM cart_items
-      WHERE id = $1
-      `,
-      [id]
-    );
+const deleteCartItem =
+  async (req, res) => {
+    try {
+      const { id } =
+        req.params;
 
-    res.json({
-      message: "Item removed",
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: "Server Error",
-    });
-  }
-};
+      await pool.query(
+        `
+        DELETE FROM cart_items
+        WHERE id = $1
+        `,
+        [id]
+      );
+
+      res.json({
+        message:
+          "Item removed",
+      });
+    } catch (
+      error
+    ) {
+      console.error(
+        error
+      );
+
+      res.status(500).json({
+        message:
+          "Server Error",
+      });
+    }
+  };
 
 module.exports = {
   getCart,

@@ -91,7 +91,23 @@ useState("RAZORPAY");
     );
 
   const handlePayment =
+  
   async () => {
+    if (
+  !formData.full_name ||
+  !formData.phone ||
+  !formData.email ||
+  !formData.address_line1 ||
+  !formData.city ||
+  !formData.state ||
+  !formData.pincode
+) {
+  alert(
+    "Please fill all required fields"
+  );
+
+  return;
+}
     try {
       const token =
         localStorage.getItem(
@@ -101,7 +117,11 @@ useState("RAZORPAY");
       const orderResponse =
         await axios.post(
           `${import.meta.env.VITE_API_URL}/api/orders/create`,
-          formData,
+          {
+            ...formData,
+            payment_method:
+              paymentMethod,
+          },
           {
             headers: {
               Authorization:
@@ -110,6 +130,22 @@ useState("RAZORPAY");
           }
         );
 
+      // COD FLOW
+      if (
+        paymentMethod ===
+        "COD"
+      ) {
+        alert(
+          "Order Placed Successfully"
+        );
+
+        window.location.href =
+          `/order-success/${orderResponse.data.orderId}`;
+
+        return;
+      }
+
+      // RAZORPAY FLOW
       const {
         razorpayOrderId,
         amount,
@@ -164,7 +200,7 @@ useState("RAZORPAY");
             );
 
             window.location.href =
-              "/";
+              `/order-success/${orderResponse.data.orderId}`;
           },
 
         prefill: {
@@ -420,7 +456,49 @@ useState("RAZORPAY");
           borderRadius: 3,
         }}
       >
-        <CardContent>
+        <CardContent><Card
+  sx={{
+    mb: 4,
+    borderRadius: 3,
+  }}
+>
+  <CardContent>
+    <Typography
+      variant="h6"
+      gutterBottom
+    >
+      Payment Method
+    </Typography>
+
+    <RadioGroup
+      value={paymentMethod}
+      onChange={(e) =>
+        setPaymentMethod(
+          e.target.value
+        )
+      }
+    >
+      <FormControlLabel
+        value="RAZORPAY"
+        control={<Radio />}
+        label="Card / Net Banking"
+      />
+
+      <FormControlLabel
+        value="COD"
+        control={<Radio />}
+        label="Cash On Delivery/UPI"
+      />
+    </RadioGroup>
+    <Typography
+  variant="body2"
+  color="text.secondary"
+  sx={{ mt: 1 }}
+>
+  *Cash On Delivery available for eligible locations.
+</Typography>
+  </CardContent>
+</Card>
           <Typography
             variant="h6"
             gutterBottom
@@ -430,31 +508,47 @@ useState("RAZORPAY");
 
           {cart.map(
             (item) => (
-              <div
-                key={item.id}
-                style={{
-                  marginBottom:
-                    "10px",
-                }}
-              >
-                <Typography>
-                  {item.name}
-                  {" × "}
-                  {
-                    item.quantity
-                  }
-                </Typography>
+              <Box
+  key={item.id}
+  sx={{
+    display: "flex",
+    gap: 2,
+    alignItems: "center",
+    mb: 2,
+  }}
+>
+  <img
+    src={item.image_url}
+    alt={item.name}
+    width="60"
+    style={{
+      borderRadius: "8px",
+    }}
+  />
 
-                <Typography>
-                  ₹
-                  {Number(
-                    item.price
-                  ) *
-                    Number(
-                      item.quantity
-                    )}
-                </Typography>
-              </div>
+  <Box
+    sx={{
+      flex: 1,
+    }}
+  >
+    <Typography>
+      {item.name}
+    </Typography>
+
+    <Typography
+      variant="body2"
+      color="text.secondary"
+    >
+      Qty: {item.quantity}
+    </Typography>
+  </Box>
+
+  <Typography>
+    ₹
+    {Number(item.price) *
+      Number(item.quantity)}
+  </Typography>
+</Box>
             )
           )}
 
@@ -482,7 +576,26 @@ useState("RAZORPAY");
               handlePayment
             }
           >
-            Pay Now
+           <Button
+  variant="contained"
+  size="large"
+  fullWidth
+  sx={{
+    mt: 3,
+    background:
+      "linear-gradient(135deg,#1E3A8A,#2563EB,#38BDF8)",
+
+    "&:hover": {
+      background:
+        "linear-gradient(135deg,#172554,#1D4ED8,#0EA5E9)",
+    },
+  }}
+  onClick={handlePayment}
+>
+  {paymentMethod === "COD"
+    ? "Place Order"
+    : "Proceed To Payment"}
+</Button>
           </Button>
         </CardContent>
       </Card>
