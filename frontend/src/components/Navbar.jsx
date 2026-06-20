@@ -326,72 +326,136 @@ function Navbar() {
           }}
         >
           <List>
-            {menuItems.map(
-              (item) => (
-                <ListItem
-                  key={
-                    item.path
-                  }
-                  disablePadding
-                >
-                  <ListItemButton
-                    component={
-                      Link
-                    }
-                    to={
-                      item.path
-                    }
-                    onClick={() =>
-                      setMobileOpen(
-                        false
-                      )
-                    }
-                  >
-                    <ListItemText
-                      primary={
-                        item.text
-                      }
-                    />
-                  </ListItemButton>
-                </ListItem>
-              )
-            )}
+  {menuItems.map(
+    (item) => (
+      <ListItem
+        key={item.path}
+        disablePadding
+      >
+        <ListItemButton
+          component={Link}
+          to={item.path}
+          onClick={() =>
+            setMobileOpen(false)
+          }
+        >
+          <ListItemText
+            primary={item.text}
+          />
+        </ListItemButton>
+      </ListItem>
+    )
+  )}
 
-            {!adminToken &&
-              !token && (
-                <>
-                  <ListItem
-                    disablePadding
-                  >
-                    <ListItemButton
-                      component={
-                        Link
-                      }
-                      to="/login"
-                    >
-                      <ListItemText
-                        primary="Login"
-                      />
-                    </ListItemButton>
-                  </ListItem>
+  {!adminToken &&
+    token && (
+      <>
+        <ListItem
+          disablePadding
+        >
+          <ListItemButton
+            component={Link}
+            to="/cart"
+            onClick={() =>
+              setMobileOpen(false)
+            }
+          >
+            <ListItemText
+              primary="Cart"
+            />
+          </ListItemButton>
+        </ListItem>
 
-                  <ListItem
-                    disablePadding
-                  >
-                    <ListItemButton
-                      component={
-                        Link
-                      }
-                      to="/register"
-                    >
-                      <ListItemText
-                        primary="Register"
-                      />
-                    </ListItemButton>
-                  </ListItem>
-                </>
-              )}
-          </List>
+        <ListItem
+          disablePadding
+        >
+          <ListItemButton
+            component={Link}
+            to="/account"
+            onClick={() =>
+              setMobileOpen(false)
+            }
+          >
+            <ListItemText
+              primary="My Account"
+            />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem
+          disablePadding
+        >
+          <ListItemButton
+            onClick={() => {
+              localStorage.removeItem(
+                "token"
+              );
+
+              window.location.href =
+                "/login";
+            }}
+          >
+            <ListItemText
+              primary="Logout"
+            />
+          </ListItemButton>
+        </ListItem>
+      </>
+    )}
+
+  {!adminToken &&
+    !token && (
+      <>
+        <ListItem
+          disablePadding
+        >
+          <ListItemButton
+            component={Link}
+            to="/login"
+            onClick={() =>
+              setMobileOpen(false)
+            }
+          >
+            <ListItemText
+              primary="Login"
+            />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem
+          disablePadding
+        >
+          <ListItemButton
+            component={Link}
+            to="/register"
+            onClick={() =>
+              setMobileOpen(false)
+            }
+          >
+            <ListItemText
+              primary="Register"
+            />
+          </ListItemButton>
+        </ListItem>
+      </>
+    )}
+
+  {adminToken && (
+    <ListItem
+      disablePadding
+    >
+      <ListItemButton
+        onClick={
+          logoutAdmin
+        }
+      >
+        <ListItemText
+          primary="Logout"
+        />
+      </ListItemButton>
+    </ListItem>
+  )}
+</List>
         </Box>
       </Drawer>
     </>
