@@ -156,25 +156,8 @@ function Account() {
         </CardContent>
       </Card>
 
-      <Button
-  component={Link}
-  to="/my-orders"
-  variant="contained"
-  fullWidth
-  sx={{
-    mt: 2,
-    background:
-      "linear-gradient(135deg,#1E3A8A,#2563EB,#38BDF8)",
-
-    "&:hover": {
-      background:
-        "linear-gradient(135deg,#172554,#1D4ED8,#0EA5E9)",
-    },
-  }}
->
-  My Orders
-</Button>
-
+      <Typography> My Orders</Typography>
+  
       {orders.length ===
       0 ? (
         <Card>
@@ -200,7 +183,7 @@ function Account() {
     },
   }}
 >
-              <CardContent>
+              <CardContent color="#87f1b0">
                 <Typography
                   variant="h6"
                 >
