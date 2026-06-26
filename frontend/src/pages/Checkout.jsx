@@ -157,7 +157,7 @@ useState("RAZORPAY");
         key:
           import.meta.env
             .VITE_RAZORPAY_KEY_ID,
-
+        
         amount,
 
         currency:
@@ -199,7 +199,7 @@ useState("RAZORPAY");
             alert(
               "Payment Successful"
             );
-
+                console.log("Frontend Key:", import.meta.env.VITE_RAZORPAY_KEY_ID);
             window.location.href =
               `/order-success/${orderResponse.data.orderId}`;
           },
